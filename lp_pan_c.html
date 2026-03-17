@@ -835,6 +835,13 @@ footer {
 /* ==============================
    Responsive
    ============================== */
+.instructor-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 32px;
+}
 @media (max-width: 768px) {
   nav { padding: 12px 20px; }
   .nav-logo small { display: none; }
@@ -842,6 +849,7 @@ footer {
   .hero-img-wrap { order: -1; }
   .hero-img-main { aspect-ratio: 4/3; max-height: 280px; }
   .container, .container--wide { padding: 60px 20px; }
+  .instructor-grid { grid-template-columns: 1fr; gap: 28px; }
   .feature-grid { grid-template-columns: 1fr; }
   .vision-grid { grid-template-columns: 1fr; }
   .vision-img { aspect-ratio: 4/3; position: static; }
@@ -897,7 +905,7 @@ footer {
     <!-- ヒーロー画像：パン教室の温かい雰囲気 -->
     <div class="fi fi-d2">
       <img
-        src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80&auto=format&fit=crop&crop=top"
+        src="hero.jpg"
         alt="パンを作る女性"
         class="hero-img-main"
       >
@@ -1083,9 +1091,10 @@ footer {
       <div>
         <!-- フリー画像：日本人50代女性イメージ -->
         <img
-          src="https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=480&h=640&dpr=1"
+          src="voice_a.jpg"
           alt="受講生のAさん"
           class="testimonial-img"
+          onerror="this.style.display='none';"
         >
       </div>
       <div>
@@ -1164,7 +1173,7 @@ footer {
   <div class="container">
     <span class="section-en fi">Instructor</span>
     <h2 class="section-h2 fi fi-d1">71歳、現役。</h2>
-    <div style="display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:center;margin-top:32px;" class="fi fi-d2">
+    <div class="instructor-grid fi fi-d2">
       <img
         src="teacher.jpg"
         alt="今林美栄子先生"
