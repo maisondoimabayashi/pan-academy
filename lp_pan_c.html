@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>50代から始める、第二の人生のパンアカデミー | Maison de IMABAYASHI</title>
+<!-- v2.2 (2026-03-17) ビジョンセクションの静止画を動画（パン動画.mp4）に差し替え -->
 <!-- v2.1 (2026-03-17) Free Gift CTAコピー修正・診断チャート誘導・ハードル低め設計 -->
 <!-- v2.0 (2026-03-17) パンアカデミー化・ブランドカラー深紅統一・先生写真・Unsplash画像追加 -->
 <!-- v1.0 (2026-03-xx) 初版 -->
@@ -992,11 +993,16 @@ footer {
       </div>
       <!-- フリー画像：パン・教室の雰囲気 + ロゴオーバーレイ -->
       <div class="fi fi-d2" style="position:relative;">
-        <img
-          src="https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=840&q=80&auto=format&fit=crop"
-          alt="焼きたてのパン"
+        <video
           class="vision-img"
+          autoplay
+          muted
+          loop
+          playsinline
+          style="object-fit:cover;width:100%;"
         >
+          <source src="パン動画.mp4" type="video/mp4">
+        </video>
         <!-- ロゴオーバーレイ：images/logo_white.png を配置してください -->
         <div style="
           position:absolute;
