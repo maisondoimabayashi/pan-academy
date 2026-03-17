@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50代から始める、第二の人生のパンアカデミー | Maison de IMABAYASHI</title>
+<!-- v2.1 (2026-03-17) Free Gift CTAコピー修正・診断チャート誘導・ハードル低め設計 -->
+<!-- v2.0 (2026-03-17) パンアカデミー化・ブランドカラー深紅統一・先生写真・Unsplash画像追加 -->
+<!-- v1.0 (2026-03-xx) 初版 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+/* ==============================
+   CSS Variables — Maison de IMABAYASHI Brand
+   ============================== */
+:root {
+  --bg:           #FBF7F3;
+  --primary:      #8B1A1A;
+  --primary-light:#B04040;
+  --primary-dark: #5C0F0F;
+  --accent:       #C4975A;
+  --accent-light: #DDB878;
+  --text:         #2C1F1F;
+  --muted:        #7A5050;
+  --surface:      #FFFFFF;
+  --surface2:     #F5EDE5;
+  --border:       rgba(139,26,26,0.14);
+  --shadow:       0 4px 24px rgba(44,31,31,0.10);
+}
+
+/* ==============================
+   Reset & Base
+   ============================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { text-decoration: none; color: inherit; }
+
+/* ==============================
+   Scroll Progress Bar
+   ============================== */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* ==============================
+   Navigation
+   ============================== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+nav.scrolled {
+  background: rgba(251,247,243,0.96);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 16px rgba(44,31,31,0.08);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+}
+.nav-logo small {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+}
+.nav-cta {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--primary-dark); }
+
+/* ==============================
+   Hero
+   ============================== */
+.hero-wrap {
+  background: var(--bg);
+  padding-top: 80px;
+}
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 40px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.hero-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--accent);
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+}
+.hero-h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--text);
+  letter-spacing: 0.03em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  margin-bottom: 22px;
+}
+.hero-catch {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  color: var(--primary);
+  line-height: 1.75;
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+  margin-bottom: 14px;
+  word-break: keep-all;
+}
+.hero-body {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 32px;
+}
+.hero-ctas { display: flex; flex-direction: column; gap: 12px; }
+.hero-scroll {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  font-family: 'Cormorant Garamond', serif;
+}
+.scroll-line { width: 36px; height: 1px; background: var(--accent); }
+
+/* ==============================
+   Hero Photo — 先生写真
+   ============================== */
+.hero-img-main {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: center top;
+  box-shadow: var(--shadow);
+}
+
+/* ==============================
+   Buttons
+   ============================== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 16px 28px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: background 0.2s, transform 0.15s;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1.5px solid var(--primary);
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: var(--surface2); }
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 18px 40px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-accent:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+/* ==============================
+   Section Shared
+   ============================== */
+section { position: relative; }
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 88px 40px;
+}
+.container--wide {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 88px 40px;
+}
+.section-en {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.section-en--light { color: var(--accent-light); }
+.section-h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.45rem, 2.8vw, 1.95rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.55;
+  margin-bottom: 32px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.section-h2--center { text-align: center; }
+.section-h2--light { color: #fff; }
+.lead {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  color: var(--primary);
+  line-height: 1.8;
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+  margin-bottom: 24px;
+  word-break: keep-all;
+}
+.body-text {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 2;
+}
+.body-text p { margin-bottom: 1em; }
+.body-text p:last-child { margin-bottom: 0; }
+
+/* ==============================
+   Wave Divider
+   ============================== */
+.wave { line-height: 0; overflow: hidden; }
+.wave svg { display: block; width: 100%; }
+
+/* ==============================
+   Check List
+   ============================== */
+.check-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+.check-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.check-list li .material-icons {
+  font-size: 1.05rem;
+  color: var(--accent);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* ==============================
+   課題セクション
+   ============================== */
+.mondai { background: var(--surface); }
+.mondai-body {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 2.1;
+}
+.mondai-quote {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.15rem;
+  color: var(--primary);
+  line-height: 1.75;
+  text-align: center;
+  padding: 36px 32px;
+  background: var(--surface2);
+  border-radius: 8px;
+  margin: 32px 0;
+  border-top: 3px solid var(--primary);
+  word-break: keep-all;
+}
+.mondai-close {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 2.1;
+}
+.em {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ==============================
+   解決策セクション
+   ============================== */
+.kaiketsu { background: var(--surface2); }
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+.feature-card {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 24px 22px;
+  border-bottom: 3px solid var(--accent);
+}
+.feature-card .material-icons { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
+.feature-card h4 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 6px;
+  word-break: keep-all;
+}
+.feature-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+
+/* ==============================
+   ビジョン
+   ============================== */
+.vision { background: var(--surface); }
+.vision-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 56px;
+  align-items: start;
+  margin-top: 40px;
+}
+.vision-img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 12px;
+  object-fit: cover;
+  position: sticky;
+  top: 100px;
+  box-shadow: var(--shadow);
+}
+.vision-closing {
+  margin-top: 28px;
+  padding: 24px 22px;
+  background: var(--surface2);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+}
+.vision-closing p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.9;
+}
+
+/* ==============================
+   無料診断CTA
+   ============================== */
+.free-cta { background: var(--primary-dark); }
+.free-cta .container { text-align: center; }
+.free-cta-lead {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.95;
+  margin-bottom: 28px;
+}
+.free-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 520px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+.free-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.88);
+}
+.free-item .material-icons { color: var(--accent-light); font-size: 1rem; }
+.free-note {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.42);
+  margin-top: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* ==============================
+   体験談
+   ============================== */
+.voice { background: var(--bg); }
+.testimonial-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 44px;
+  align-items: start;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+  margin-top: 32px;
+}
+.testimonial-img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.testimonial-name {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.testimonial-meta {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+.testimonial-quote {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.95;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  position: relative;
+}
+.testimonial-quote::before {
+  content: '\201C';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  color: var(--accent);
+  position: absolute;
+  left: -4px;
+  top: -8px;
+  line-height: 1;
+}
+.results {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.result-badge {
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  color: var(--primary);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.result-badge .material-icons { font-size: 0.9rem; color: var(--accent); }
+.testimonial-end {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.85;
+  font-style: italic;
+}
+.voice-closing {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+/* ==============================
+   なぜ50代が最適か
+   ============================== */
+.why50 { background: var(--surface); }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 36px;
+}
+.why-card {
+  text-align: center;
+  padding: 28px 20px 24px;
+  background: var(--surface2);
+  border-radius: 10px;
+}
+.why-card .material-icons { font-size: 1.9rem; color: var(--primary); margin-bottom: 12px; }
+.why-card h4 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.88rem;
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 8px;
+  word-break: keep-all;
+}
+.why-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+.why-conclusion {
+  margin-top: 36px;
+  text-align: center;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.05rem;
+  color: var(--primary);
+  line-height: 1.75;
+  padding: 28px 32px;
+  background: var(--surface2);
+  border-radius: 8px;
+  border-top: 3px solid var(--primary);
+  word-break: keep-all;
+}
+
+/* ==============================
+   6ヶ月プログラム
+   ============================== */
+.program { background: var(--surface2); }
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 36px;
+}
+.month-card {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 24px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.month-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+}
+.month-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.68rem;
+  color: var(--accent);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.month-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 8px;
+  word-break: keep-all;
+}
+.month-detail { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+.program-note {
+  margin-top: 28px;
+  padding: 22px 24px;
+  background: var(--surface);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.85;
+}
+.program-note strong { color: var(--primary); }
+
+/* ==============================
+   FAQ
+   ============================== */
+.faq { background: var(--surface); }
+.faq-list {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.faq-item {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.faq-q {
+  width: 100%;
+  background: var(--surface);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  transition: background 0.2s;
+  word-break: keep-all;
+}
+.faq-q:hover { background: var(--surface2); }
+.faq-q .material-icons { color: var(--primary); flex-shrink: 0; transition: transform 0.3s; }
+.faq-item.open .faq-q .material-icons { transform: rotate(45deg); }
+.faq-a {
+  display: none;
+  padding: 0 24px 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.9;
+  background: var(--surface);
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ==============================
+   限定性
+   ============================== */
+.limited { background: var(--surface2); }
+.limited-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0;
+  justify-content: center;
+}
+.limited-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+.limited-badge .material-icons { font-size: 0.95rem; color: var(--accent); }
+.limited-message {
+  text-align: center;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+/* ==============================
+   最終CTA
+   ============================== */
+.final-cta {
+  background: linear-gradient(160deg, var(--primary-dark) 0%, #2A0808 100%);
+  text-align: center;
+}
+.final-cta .container { padding: 100px 40px 108px; }
+.final-h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.final-body {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.68);
+  line-height: 2.1;
+  margin-bottom: 44px;
+}
+.final-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); }
+
+/* ==============================
+   Footer
+   ============================== */
+footer {
+  background: #1E0808;
+  padding: 44px 40px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.footer-copy {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.08em;
+}
+
+/* ==============================
+   Scroll Fade-in Animation
+   ============================== */
+.fi {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.72s ease, transform 0.72s ease;
+}
+.fi.visible { opacity: 1; transform: translateY(0); }
+.fi-d1 { transition-delay: 0.1s; }
+.fi-d2 { transition-delay: 0.2s; }
+.fi-d3 { transition-delay: 0.3s; }
+.fi-d4 { transition-delay: 0.4s; }
+
+/* ==============================
+   Floating CTA — mobile only
+   ============================== */
+.float-cta {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--primary);
+  color: #fff;
+  text-align: center;
+  padding: 16px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  z-index: 800;
+  box-shadow: 0 -4px 20px rgba(44,31,31,0.18);
+}
+
+/* ==============================
+   Responsive
+   ============================== */
+@media (max-width: 768px) {
+  nav { padding: 12px 20px; }
+  .nav-logo small { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 60px 20px 60px; gap: 28px; }
+  .hero-img-wrap { order: -1; }
+  .hero-img-main { aspect-ratio: 4/3; max-height: 280px; }
+  .container, .container--wide { padding: 60px 20px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .vision-grid { grid-template-columns: 1fr; }
+  .vision-img { aspect-ratio: 4/3; position: static; }
+  .testimonial-card { grid-template-columns: 1fr; gap: 24px; padding: 28px 22px; }
+  .testimonial-img { aspect-ratio: 4/3; max-height: 240px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .program-grid { grid-template-columns: 1fr; }
+  .free-items { grid-template-columns: 1fr; }
+  .section-h2 { font-size: 1.3rem; }
+  .float-cta { display: block; }
+  body { padding-bottom: 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
+
+<!-- ========== Navigation ========== -->
+<nav id="nav">
+  <div class="nav-logo">
+    Maison de IMABAYASHI
+    <small>· pan academy ·</small>
+  </div>
+  <a href="#contact" class="nav-cta">開業スタイル診断（無料）</a>
+</nav>
+
+<!-- ========== Hero ========== -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-en fi">Maison de Imabayashi · Pan Academy</div>
+      <div class="hero-badge fi fi-d1">☕ カフェ開業・パン販売を目指す方へ</div>
+      <h1 class="hero-h1 fi fi-d2">50代から始める、<br>第二の人生のパンアカデミー</h1>
+      <p class="hero-catch fi fi-d3">「誰かの奥さん」ではなく<br>"先生"として呼ばれる人生へ。</p>
+      <p class="hero-body fi fi-d4">好きなパンを仕事にしながら、<br>自分の名前で感謝される毎日をつくりませんか？</p>
+      <div class="hero-ctas fi fi-d4">
+        <a href="https://lin.ee/eoyOqYa6" target="_blank" class="btn-primary">
+          <span class="material-icons" style="font-size:1rem;">quiz</span>
+          まず、私の開業スタイルを診断してみる（無料）
+        </a>
+        <a href="#program" class="btn-secondary">
+          <span class="material-icons" style="font-size:1rem;">school</span>
+          6ヶ月カリキュラムを見る
+        </a>
+      </div>
+      <div class="hero-scroll fi">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </div>
+    <!-- ヒーロー画像：パン教室の温かい雰囲気 -->
+    <div class="fi fi-d2">
+      <img
+        src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80&auto=format&fit=crop&crop=top"
+        alt="パンを作る女性"
+        class="hero-img-main"
+      >
+    </div>
+  </div>
+</div>
+
+<!-- Wave bg → white -->
+<div class="wave" style="background:var(--bg);">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,20 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<!-- ========== 課題セクション ========== -->
+<section class="mondai">
+  <div class="container">
+    <span class="section-en fi">Problem</span>
+    <h2 class="section-h2 fi fi-d1">気づけば、「私の人生」が<br>後回しになっていませんか？</h2>
+    <div class="mondai-body fi fi-d2">
+      <p>子どもを育て、家族を支え、気づけば58歳。</p>
+      <p>時間も少し余裕ができた。お金も、ある程度はある。</p>
+      <p>それなのに、どこか満たされない。</p>
+    </div>
+    <div class="mondai-quote fi fi-d3">
+      「このまま終わるのは嫌」<br>
+      そう思っているのに、何も始められていない。
+    </div>
+    <div class="mondai-close fi fi-d4">
+      <p>それは、やりたいことがないのではなく、</p>
+      <p class="em">「やり方」を知らないだけかもしれません。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Wave white → surface2 -->
+<div class="wave" style="background:#FFFFFF;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z" fill="#F5EDE5"/>
+  </svg>
+</div>
+
+<!-- ========== 解決策セクション ========== -->
+<section class="kaiketsu">
+  <div class="container">
+    <span class="section-en fi">Solution</span>
+    <h2 class="section-h2 fi fi-d1">好きなパンを「人生の主役」に変える<br>6ヶ月</h2>
+    <p class="lead fi fi-d2">このアカデミーは、単なるパン教室ではありません。</p>
+    <div class="feature-grid">
+      <div class="feature-card fi fi-d1">
+        <span class="material-icons">grain</span>
+        <h4>技術習得</h4>
+        <p>小麦・米粉・天然酵母の技術を体系的に習得。18レシピを教えられる力をつける。</p>
+      </div>
+      <div class="feature-card fi fi-d2">
+        <span class="material-icons">people</span>
+        <h4>集客導線設計</h4>
+        <p>FacebookやLINEを使った集客の仕組みを構築。生徒さんが自然と集まる導線を設計。</p>
+      </div>
+      <div class="feature-card fi fi-d3">
+        <span class="material-icons">smartphone</span>
+        <h4>LINE予約構築</h4>
+        <p>ITが苦手でも大丈夫。スマートフォンで完結する予約管理の仕組みを一から丁寧に伝授。</p>
+      </div>
+      <div class="feature-card fi fi-d4">
+        <span class="material-icons">handshake</span>
+        <h4>開業伴走サポート</h4>
+        <p>6ヶ月間マンツーマンで伴走。卒業後も認定コミュニティで繋がれる環境が整っている。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave surface2 → white -->
+<div class="wave" style="background:#F5EDE5;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,30 C480,0 960,60 1440,30 L1440,60 L0,60 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<!-- ========== ビジョン ========== -->
+<section class="vision">
+  <div class="container--wide">
+    <span class="section-en fi">Vision</span>
+    <h2 class="section-h2 fi fi-d1">テレビで見るような"第二の人生"を、<br>あなたのキッチンから。</h2>
+    <div class="vision-grid">
+      <div>
+        <div class="body-text fi fi-d2">
+          <p>静かな地方都市の自宅。特別な資格も、派手な起業もない。</p>
+          <p>でも——パンの香りが広がるキッチンに生徒さんが集まり、「先生」と呼ばれる毎日。</p>
+          <p>それは、遠くへ移住しなくても叶います。今の家のまま、今の街のまま、人生の景色を変えることはできるのです。</p>
+        </div>
+        <ul class="check-list fi fi-d3">
+          <li><span class="material-icons">check_circle</span>小麦・米粉・天然酵母の技術習得</li>
+          <li><span class="material-icons">check_circle</span>18レシピを教えられる力</li>
+          <li><span class="material-icons">check_circle</span>アカデミー運営の仕組み化</li>
+          <li><span class="material-icons">check_circle</span>LINE予約・体験会設計まで伴走</li>
+        </ul>
+        <div class="vision-closing fi fi-d4">
+          <p>パンを武器に、"私には何もない"を "私はこれがある"へ。<br><br>誰かの奥さんではなく、自分の名前で生きる人生へ。<br><br>半年後、あなたはきっと「あの時、始めてよかった」と言っています。</p>
+        </div>
+      </div>
+      <!-- フリー画像：パン・教室の雰囲気 + ロゴオーバーレイ -->
+      <div class="fi fi-d2" style="position:relative;">
+        <img
+          src="https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=840&q=80&auto=format&fit=crop"
+          alt="焼きたてのパン"
+          class="vision-img"
+        >
+        <!-- ロゴオーバーレイ：images/logo_white.png を配置してください -->
+        <div style="
+          position:absolute;
+          bottom:20px;
+          right:20px;
+          background:rgba(0,0,0,0.38);
+          backdrop-filter:blur(4px);
+          border-radius:8px;
+          padding:10px 16px;
+        ">
+          <img
+            src="images/logo_white.png"
+            alt="Maison de IMABAYASHI"
+            style="width:140px;display:block;filter:brightness(0) invert(1);"
+            onerror="this.parentElement.style.display='none';"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave white → primary-dark -->
+<div class="wave" style="background:#FFFFFF;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,30 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="#5C0F0F"/>
+  </svg>
+</div>
+
+<!-- ========== 無料診断CTA ========== -->
+<section class="free-cta" id="contact">
+  <div class="container">
+    <span class="section-en section-en--light fi">Free</span>
+    <h2 class="section-h2 section-h2--light section-h2--center fi fi-d1">カフェ開業・パン販売<br>開業スタイル診断（1分・無料）</h2>
+    <p class="free-cta-lead fi fi-d2">「私に向いているの？」「何から始めればいいの？」<br>まず、今のあなたの開業スタイルを知るところから。<br>診断結果で、あなたに合った最初の一歩が見えてきます。</p>
+    <div class="free-items fi fi-d3">
+      <div class="free-item"><span class="material-icons">home</span>自宅カフェ型？販売型？</div>
+      <div class="free-item"><span class="material-icons">psychology</span>今のあなたのスタート地点は？</div>
+      <div class="free-item"><span class="material-icons">map</span>スタイル別ロードマップ付き</div>
+      <div class="free-item"><span class="material-icons">schedule</span>所要時間：約1分</div>
+    </div>
+    <div class="fi fi-d4" style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+      <a href="https://lin.ee/eoyOqYa6" target="_blank" class="btn-accent">
+        <span class="material-icons" style="font-size:1rem;">quiz</span>
+        まず、私の開業スタイルを診断してみる（無料）
+      </a>
+      <a href="https://lin.ee/eoyOqYa6" target="_blank" class="btn-ghost" style="font-size:0.8rem;padding:11px 22px;">
+        <span class="material-icons" style="font-size:0.9rem;">chat</span>
+        診断後に個別で相談したい方はこちら
+      </a>
+      <p class="free-note">1分で完了。診断後に個別相談も選べます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Wave primary-dark → bg -->
+<div class="wave" style="background:#4A1010;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,20 C480,60 960,0 1440,40 L1440,60 L0,60 Z" fill="#FBF7F3"/>
+  </svg>
+</div>
+
+<!-- ========== 体験談 ========== -->
+<section class="voice">
+  <div class="container">
+    <span class="section-en fi">Voice</span>
+    <h2 class="section-h2 fi fi-d1">58歳・専業主婦から、"先生"へ。</h2>
+    <div class="testimonial-card fi fi-d2">
+      <div>
+        <!-- フリー画像：日本人50代女性イメージ -->
+        <img
+          src="https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=480&h=640&dpr=1"
+          alt="受講生のAさん"
+          class="testimonial-img"
+        >
+      </div>
+      <div>
+        <div class="testimonial-name">Aさん（58歳）</div>
+        <div class="testimonial-meta">地方都市在住 · 子ども独立後から受講</div>
+        <p class="testimonial-quote">私にできるはずがないと思っていました。最初は不安ばかり。でも6ヶ月後——</p>
+        <div class="results">
+          <div class="result-badge"><span class="material-icons">calendar_month</span>自宅アカデミーを月2回開催</div>
+          <div class="result-badge"><span class="material-icons">people</span>体験会満席</div>
+          <div class="result-badge"><span class="material-icons">currency_yen</span>月7万円の収入達成</div>
+        </div>
+        <p class="testimonial-end">何より変わったのは、"自信のある表情"でした。<br>「もっと早く始めればよかったです。」</p>
+      </div>
+    </div>
+    <p class="voice-closing fi fi-d3">あなたと同じ立場の女性が、人生第二章を歩き始めています。</p>
+  </div>
+</section>
+
+<!-- Wave bg → white -->
+<div class="wave" style="background:#FBF7F3;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<!-- ========== なぜ50代が最適か ========== -->
+<section class="why50">
+  <div class="container">
+    <span class="section-en fi">Why 50s</span>
+    <h2 class="section-h2 section-h2--center fi fi-d1">なぜ50代が、一番成功しやすいのか。</h2>
+    <div class="why-grid">
+      <div class="why-card fi fi-d1">
+        <span class="material-icons">school</span>
+        <h4>教育費が終わっている</h4>
+        <p>子育てが一段落し、自分への投資に使えるお金がある。</p>
+      </div>
+      <div class="why-card fi fi-d2">
+        <span class="material-icons">home</span>
+        <h4>住宅ローンが軽い</h4>
+        <p>完済、または残りわずか。固定費のプレッシャーが少ない。</p>
+      </div>
+      <div class="why-card fi fi-d3">
+        <span class="material-icons">timer</span>
+        <h4>時間に余裕がある</h4>
+        <p>子どもが独立し、週数回のアカデミー運営に集中できる。</p>
+      </div>
+      <div class="why-card fi fi-d1">
+        <span class="material-icons">psychology</span>
+        <h4>人生経験が豊富</h4>
+        <p>生徒さんへの共感力・コミュニケーション力は、50代が誰よりも高い。</p>
+      </div>
+      <div class="why-card fi fi-d2">
+        <span class="material-icons">group</span>
+        <h4>同世代ネットワークがある</h4>
+        <p>PTAや地域のつながりが、最初の生徒集めに直結する。</p>
+      </div>
+      <div class="why-card fi fi-d3">
+        <span class="material-icons">trending_up</span>
+        <h4>退職金・年金の見込みがある</h4>
+        <p>生活基盤が安定しているため、焦らずアカデミーを育てられる。</p>
+      </div>
+    </div>
+    <div class="why-conclusion fi fi-d4">実は50代は、アカデミーオーナーとして一番成功しやすい世代です。</div>
+  </div>
+</section>
+
+<!-- Wave white → surface2 -->
+<div class="wave" style="background:#FFFFFF;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,30 C480,0 960,60 1440,30 L1440,60 L0,60 Z" fill="#F5EDE5"/>
+  </svg>
+</div>
+
+<!-- ========== 講師紹介 ========== -->
+<section style="background:var(--surface2);">
+  <div class="container">
+    <span class="section-en fi">Instructor</span>
+    <h2 class="section-h2 fi fi-d1">71歳、現役。</h2>
+    <div style="display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:center;margin-top:32px;" class="fi fi-d2">
+      <img
+        src="images/teacher.jpg"
+        alt="今林美栄子先生"
+        style="width:100%;border-radius:12px;box-shadow:var(--shadow);"
+        onerror="this.style.display='none';"
+      >
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;color:var(--accent);letter-spacing:0.2em;margin-bottom:8px;">INSTRUCTOR</div>
+        <div style="font-family:'Noto Serif JP',serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px;">今林 美栄子</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:20px;letter-spacing:0.08em;">パンアカデミー主宰 · 料理研究家</div>
+        <ul class="check-list">
+          <li><span class="material-icons">check_circle</span>指導歴30年・7,000人以上を指導</li>
+          <li><span class="material-icons">check_circle</span>パンシェルジュ1級取得</li>
+          <li><span class="material-icons">check_circle</span>小麦・米粉・生米・天然酵母を網羅</li>
+          <li><span class="material-icons">check_circle</span>71歳、現在も現役で指導中</li>
+        </ul>
+        <p style="font-size:0.85rem;color:var(--muted);line-height:1.9;margin-top:16px;">「飯炊きババアで終わらせない。パンを通じて、50代からの人生を再設計する」——それが私のミッションです。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave surface2 → surface2（プログラムへ） -->
+<div class="wave" style="background:#F5EDE5;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,20 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#F5EDE5"/>
+  </svg>
+</div>
+
+<!-- ========== 6ヶ月プログラム ========== -->
+<section class="program" id="program">
+  <div class="container">
+    <span class="section-en fi">Curriculum</span>
+    <h2 class="section-h2 fi fi-d1">6ヶ月カリキュラム</h2>
+    <div class="program-grid">
+      <div class="month-card fi fi-d1">
+        <div class="month-num">Month 01</div>
+        <div class="month-title">基礎技術の確立</div>
+        <p class="month-detail">小麦パンの基本工程・発酵理論を体得。失敗しない生地づくりの土台を固める。</p>
+      </div>
+      <div class="month-card fi fi-d2">
+        <div class="month-num">Month 02</div>
+        <div class="month-title">米粉・生米パン</div>
+        <p class="month-detail">グルテンフリーの需要に応える米粉・生米パンを習得。差別化できるメニューを持つ。</p>
+      </div>
+      <div class="month-card fi fi-d3">
+        <div class="month-num">Month 03</div>
+        <div class="month-title">天然酵母・自家製酵母</div>
+        <p class="month-detail">天然酵母の起こし方から管理方法まで。「本物のパンアカデミー」としての信頼感を高める。</p>
+      </div>
+      <div class="month-card fi fi-d4">
+        <div class="month-num">Month 04</div>
+        <div class="month-title">「教え方」の設計</div>
+        <p class="month-detail">18レシピの教授法を習得。生徒さんが「また来たい」と思うアカデミー体験を設計する。</p>
+      </div>
+      <div class="month-card fi fi-d1">
+        <div class="month-num">Month 05</div>
+        <div class="month-title">集客設計</div>
+        <p class="month-detail">Facebook・LINE公式アカウントを活用した集客導線を構築。体験会の設計から告知文まで。</p>
+      </div>
+      <div class="month-card fi fi-d2">
+        <div class="month-num">Month 06</div>
+        <div class="month-title">開業準備・体験会実施</div>
+        <p class="month-detail">実際に体験会を開催。フィードバックをもとにアカデミーを磨き上げ、開業への総仕上げ。</p>
+      </div>
+    </div>
+    <div class="program-note fi fi-d3">
+      <strong>修了後のサポートも充実。</strong>認定証発行・卒業後コミュニティ参加・開業後の相談窓口を用意しています。これは"パンを学ぶ費用"ではなく、<strong>「第二の人生への投資」</strong>です。
+    </div>
+  </div>
+</section>
+
+<!-- Wave surface2 → white -->
+<div class="wave" style="background:#F5EDE5;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,20 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<!-- ========== FAQ ========== -->
+<section class="faq">
+  <div class="container">
+    <span class="section-en fi">FAQ</span>
+    <h2 class="section-h2 section-h2--center fi fi-d1">よくあるご質問</h2>
+    <div class="faq-list fi fi-d2">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>ITが苦手でも大丈夫ですか？</span>
+          <span class="material-icons">add</span>
+        </button>
+        <div class="faq-a">はい、まったく問題ありません。LINE・Facebookの基本操作ができれば十分です。受講中はスマートフォンの使い方から丁寧にサポートします。ITが理由で諦めた方も多数卒業されています。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>本当に50代からでもできますか？</span>
+          <span class="material-icons">add</span>
+        </button>
+        <div class="faq-a">むしろ50代が一番向いています。人生経験・共感力・ネットワーク——これらすべてがアカデミー運営の強みになります。受講生の多くが50代以上で、安定した成果を出しています。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>集客が不安です。本当に生徒さんが集まりますか？</span>
+          <span class="material-icons">add</span>
+        </button>
+        <div class="faq-a">集客設計は5ヶ月目に丸ごとサポートします。告知文・SNS投稿・LINE公式の使い方まで、あなたの状況に合わせて一緒に組み立てます。体験会を開いて満席になった卒業生も多数います。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>家族に反対されたらどうすればいいですか？</span>
+          <span class="material-icons">add</span>
+        </button>
+        <div class="faq-a">無料体験会・診断で、まず現実的なビジョンを描いてみてください。「月5万円の副収入があると生活がこう変わる」という具体的な数字をお見せすることで、ご家族の理解を得やすくなります。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave white → surface2 -->
+<div class="wave" style="background:#FFFFFF;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z" fill="#F5EDE5"/>
+  </svg>
+</div>
+
+<!-- ========== 限定性 ========== -->
+<section class="limited">
+  <div class="container" style="text-align:center;">
+    <span class="section-en fi">Limited</span>
+    <h2 class="section-h2 section-h2--center fi fi-d1">毎期、限定募集です。</h2>
+    <div class="limited-badges fi fi-d2">
+      <div class="limited-badge"><span class="material-icons">group</span>少人数制・丁寧な伴走</div>
+      <div class="limited-badge"><span class="material-icons">lock_clock</span>毎期限定募集</div>
+      <div class="limited-badge"><span class="material-icons">star</span>体験会参加者のみ案内</div>
+    </div>
+    <p class="limited-message fi fi-d3">「やってみたい」と思った今が、最適なタイミングです。</p>
+  </div>
+</section>
+
+<!-- Wave surface2 → dark -->
+<div class="wave" style="background:#F5EDE5;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60">
+    <path d="M0,20 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="#2A0808"/>
+  </svg>
+</div>
+
+<!-- ========== 最終CTA ========== -->
+<section class="final-cta">
+  <div class="container">
+    <span class="section-en section-en--light fi">Start Here</span>
+    <h2 class="final-h2 fi fi-d1">あなたが人生で「自分のために」<br>挑戦できる<br>最後のタイミングかもしれません。</h2>
+    <p class="final-body fi fi-d2">誰かの奥さんでも、誰かのお母さんでもなく——<br>あなたの名前で、あなたのアカデミーを。<br>その第一歩は、LINE登録から始まります。</p>
+    <div class="final-ctas fi fi-d3">
+      <a href="https://lin.ee/eoyOqYa6" target="_blank" class="btn-accent">
+        <span class="material-icons" style="font-size:1rem;">quiz</span>
+        まず、私の開業スタイルを診断してみる（1分・無料）
+      </a>
+      <a href="https://lin.ee/eoyOqYa6" target="_blank" class="btn-ghost">
+        <span class="material-icons" style="font-size:1rem;">chat</span>
+        診断後に個別で相談したい方はこちら
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer>
+  <div class="footer-logo">Maison de IMABAYASHI</div>
+  <p class="footer-copy">&copy; 2026 Maison de IMABAYASHI Pan Academy. All rights reserved.</p>
+</footer>
+
+<!-- Floating CTA (mobile) -->
+<a href="https://lin.ee/eoyOqYa6" target="_blank" class="float-cta">まず、私の開業スタイルを診断してみる（無料）</a>
+
+<!-- ========== JavaScript ========== -->
+<script>
+// Scroll Progress Bar
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  bar.style.width = (window.scrollY / total * 100) + '%';
+});
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Intersection Observer — fade-in
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+// FAQ Toggle
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>

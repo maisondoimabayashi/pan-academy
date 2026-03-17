@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開業スタイル診断 | Maison de IMABAYASHI</title>
+<!-- v1.1 (2026-03-17) URLパラメータ?uid読み取り＋診断完了時にCloudflare WorkerへPOST送信を追加 -->
+<!-- v1.0 (2026-03-17) 診断専用ページ。quiz_chart_IMABAYASHI (3).htmlのデモ体験部分を独立化 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:       #8B1A1A;
+  --red-light: #B04040;
+  --red-dark:  #5C0F0F;
+  --gold:      #C4975A;
+  --gold-light:#DDB878;
+  --cream:     #FBF7F3;
+  --navy:      #2C1F1F;
+  --text:      #333333;
+  --gray:      #F0EDE8;
+  --typeA:     #E8842A;
+  --typeB:     #3A8FBB;
+  --typeC:     #2E9E5B;
+  --typeD:     #9B59B6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: linear-gradient(160deg, var(--red) 0%, var(--red-dark) 100%);
+  color: white;
+  padding: 28px 24px 24px;
+  text-align: center;
+}
+.header-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.header-logo {
+  width: 100px;
+  margin: 0 auto 12px;
+  filter: brightness(0) invert(1) opacity(0.85);
+  display: block;
+}
+.header h1 {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+.header-sub {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.72);
+}
+
+/* ===== MAIN AREA ===== */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 48px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(44,31,31,0.12);
+}
+
+/* ===== トップ画面 ===== */
+#screen-top {
+  padding: 32px 24px;
+  text-align: center;
+}
+.top-icon { font-size: 3rem; margin-bottom: 16px; }
+.top-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--navy);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.top-sub {
+  font-size: 0.8rem;
+  color: #888;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.meta-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.meta-item { text-align: center; }
+.meta-num {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+}
+.meta-label {
+  font-size: 0.65rem;
+  color: #999;
+  margin-top: 2px;
+}
+.start-btn {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 14px rgba(139,26,26,0.30);
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.04em;
+}
+.start-btn:hover { background: var(--red-light); transform: translateY(-1px); }
+
+/* ===== 質問画面 ===== */
+#screen-question {
+  display: none;
+  padding: 24px 20px;
+}
+.progress-bar {
+  background: #EEE;
+  border-radius: 4px;
+  height: 5px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: var(--red);
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.progress-text {
+  font-size: 0.68rem;
+  color: #AAA;
+  text-align: right;
+  margin-bottom: 22px;
+}
+.q-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  min-height: 60px;
+}
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.choice-btn {
+  background: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.55;
+  transition: all 0.15s;
+}
+.choice-btn:hover { border-color: var(--red); background: #FFF5F5; }
+.choice-btn.selected { border-color: var(--red); background: var(--red); color: white; pointer-events: none; }
+
+/* ===== ローディング ===== */
+#screen-loading {
+  display: none;
+  padding: 60px 24px;
+  text-align: center;
+}
+.spin {
+  width: 52px; height: 52px;
+  border: 4px solid #EEE;
+  border-top-color: var(--red);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+/* ===== 結果画面 ===== */
+#screen-result { display: none; }
+.result-header {
+  padding: 28px 22px 22px;
+  color: white;
+  text-align: center;
+}
+.result-type-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  opacity: 0.82;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.result-name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.result-def {
+  font-size: 0.75rem;
+  opacity: 0.88;
+}
+.result-body {
+  padding: 20px 22px 28px;
+  background: var(--cream);
+}
+.result-msg {
+  font-size: 0.82rem;
+  line-height: 2;
+  color: #333;
+  margin-bottom: 22px;
+  white-space: pre-line;
+}
+.line-btn {
+  background: #06C755;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(6,199,85,0.30);
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+.line-btn:hover { background: #05B34C; transform: translateY(-1px); }
+.line-btn-icon { font-size: 1.1rem; }
+.retry-wrap { text-align: center; margin-top: 14px; }
+.retry-btn {
+  background: none;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.75rem;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: #999;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.retry-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 20px 16px;
+  font-size: 0.65rem;
+  color: #BBB;
+}
+
+/* ===== SP最適化 ===== */
+@media (max-width: 480px) {
+  main { padding: 16px 12px 40px; }
+  .card { border-radius: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-brand">Maison de IMABAYASHI · Pan Academy</div>
+  <!-- ロゴ画像 / images/logo_white.png を配置してください -->
+  <img src="images/logo_white.png" alt="Maison de IMABAYASHI" class="header-logo"
+    onerror="this.style.display='none';">
+  <h1>開業スタイル診断</h1>
+  <div class="header-sub">カフェ開業・パン販売・教室開業 あなたに合ったスタイルがわかります</div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main>
+  <div class="card">
+
+    <!-- トップ画面 -->
+    <div id="screen-top">
+      <div class="top-icon">🍞</div>
+      <div class="top-title">あなたの開業スタイルを<br>見つけましょう</div>
+      <div class="top-sub">5つの質問に答えるだけで、<br>あなたに合った開業への第一歩が見えてきます。</div>
+      <div class="meta-row">
+        <div class="meta-item">
+          <div class="meta-num">5</div>
+          <div class="meta-label">問</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">1</div>
+          <div class="meta-label">分</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">4</div>
+          <div class="meta-label">スタイル</div>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startDiagnosis()">診断を始める →</button>
+    </div>
+
+    <!-- 質問画面 -->
+    <div id="screen-question">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:20%"></div>
+      </div>
+      <div class="progress-text" id="progress-text">Q1 / 5</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="choices" id="choices"></div>
+    </div>
+
+    <!-- ローディング -->
+    <div id="screen-loading">
+      <div class="spin"></div>
+      <div class="loading-text">あなたの開業スタイルを<br>分析中...</div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="screen-result">
+      <div class="result-header" id="result-header">
+        <div class="result-type-label" id="result-type-label"></div>
+        <div class="result-name" id="result-name"></div>
+        <div class="result-def" id="result-def"></div>
+      </div>
+      <div class="result-body">
+        <div class="result-msg" id="result-msg"></div>
+        <a href="https://lin.ee/eoyOqYa6" target="_blank" class="line-btn">
+          <span class="line-btn-icon">💬</span>
+          LINEで詳しい話を聞いてみる
+        </a>
+        <div class="retry-wrap">
+          <button class="retry-btn" onclick="resetDiagnosis()">↩ もう一度診断する</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>© 2026 Maison de IMABAYASHI Pan Academy</footer>
+
+<script>
+// ===== 質問データ =====
+const questions = [
+  {
+    q: "あなたがカフェ・教室を開いたとき、一番嬉しいのはどんな瞬間ですか？",
+    choices: [
+      { text: "常連のお客様が「今日も来たよ」と顔を見せてくれる瞬間", point: 'B' },
+      { text: "自分のパンを食べて「こんなパン初めて食べた」と言ってもらえる瞬間", point: 'A' },
+      { text: "「先生に教わってよかった」と生徒に言ってもらえる瞬間", point: 'C' }
+    ]
+  },
+  {
+    q: "カフェ開業に向けて、今一番「見えていない」のはどれですか？",
+    choices: [
+      { text: "自分のパンが本当に売れるかどうか（技術への自信）", point: 'A' },
+      { text: "お客様をどうやって集めるか（集客の方法）", point: 'B' },
+      { text: "どのステップを踏めばカフェまで辿り着けるか（道筋・ロードマップ）", point: 'C' }
+    ]
+  },
+  {
+    q: "「始めたい」という気持ちがあるのに、動き出せていない理由は？",
+    choices: [
+      { text: "パンの技術や知識がまだプロレベルに達していない気がする", point: 'A' },
+      { text: "収入が安定するか見えないまま大きな決断をするのが怖い", point: 'C' },
+      { text: "やることが多すぎて何から手をつければいいかわからない", point: 'D' }
+    ]
+  },
+  {
+    q: "カフェ・教室を通じて、最終的にどんな自分になりたいですか？",
+    choices: [
+      { text: "地域に「あのパン屋さん」として名前を知られる存在", point: 'A' },
+      { text: "夫や家族と一緒に自分たちのペースで働いている姿", point: 'D' },
+      { text: "自分の教室から巣立った生徒がそれぞれの夢を叶えている姿", point: 'C' }
+    ]
+  },
+  {
+    q: "今のあなたに一番近いのはどれですか？",
+    choices: [
+      { text: "カフェの夢はあるが、まだ遠い未来の話。日常に追われて考える時間もない", point: 'B' },
+      { text: "食べ歩きや情報収集はしているが、具体的な行動にはまだ移せていない", point: 'D' },
+      { text: "少しずつ動き始めているが、この方向で合っているか確信が持てない", point: 'C' }
+    ]
+  }
+];
+
+// ===== スタイル別データ =====
+const styleData = {
+  A: {
+    name: '職人カフェオーナー型',
+    def: '技術と情熱で勝負するスタイル',
+    color: '#E8842A',
+    grad: 'linear-gradient(135deg, #E8842A, #C06020)',
+    msg: `あなたはパンへの情熱とこだわりを持つ「職人型」。\n技術への向上心が高く、「本当に美味しいものを届けたい」という想いが誰よりも強い。\nそれはカフェオーナーとして最も大切な資質です。\n\nただ、「美味しい」だけではカフェは続きません。\n技術があっても、値段の設定・お客様の集め方・毎月安定した収益の仕組み、この3つが揃わないと、どんなに美味しいパンも「知る人ぞ知る」で終わってしまいます。\n\nあなたの情熱に「稼げる仕組み」を加えれば、夢のカフェは現実になります。\n今林先生と一緒に、そのロードマップを描いてみませんか？`
+  },
+  B: {
+    name: '地域の顔役カフェ型',
+    def: '人とのつながりを大切にするスタイル',
+    color: '#3A8FBB',
+    grad: 'linear-gradient(135deg, #3A8FBB, #2060A0)',
+    msg: `あなたは人とのつながりを何より大切にするタイプ。\n「また来たよ」と顔を見せてくれる常連さんがいるカフェ。\nその温かさこそが地域に愛されるカフェの一番の武器です。\n\nただ、「来てくれた人」を「また来たい人」に変えるには、温かさだけでは足りません。\nまた来たくなるメニューの設計・口コミが自然に広がる仕組み・最初のお客様をどう集めるか、この3つがないと開業初日からお客様を待ち続けることになります。\n\nあなたの温かさに「来てもらえる仕組み」を加えれば、地域の顔役カフェは実現します。\n今林先生と一緒に、その設計をしませんか？`
+  },
+  C: {
+    name: '教室経由ステップアップ型',
+    def: '確実に成功させたい慎重スタイル',
+    color: '#2E9E5B',
+    grad: 'linear-gradient(135deg, #2E9E5B, #1A7A4A)',
+    msg: `あなたはカフェへの夢を持ちながら「確実に成功させたい」という\n慎重さと賢さを持つタイプ。\n\n実は一番失敗しないルートは、いきなりカフェを開くことではありません。\nまず教室で稼ぎながら、看板メニューを育て・お客様との信頼を積み重ね・開業資金を着実に貯める。\nその先にカフェがある。\nこれが「夢で終わらせない」ロードマップです。\n\n教室で月10万円稼ぎながらカフェ開業資金を貯める具体的な設計、今林先生と一緒に考えませんか？`
+  },
+  D: {
+    name: '週末クリエイター型',
+    def: '自分らしいペースで好きなことを仕事にするスタイル',
+    color: '#9B59B6',
+    grad: 'linear-gradient(135deg, #9B59B6, #7B3A9A)',
+    msg: `あなたは自分らしいペースで好きなことを仕事にしたいタイプ。\n無理をせず、でも確実に前に進みたい。\nその感覚はとても大切です。\n\nただ、一つだけ正直に言います。\n「いつか」は来ません。\n\n情報収集をしながら「もう少し準備が整ったら」と思い続けているうちに、気がつけば何年も経っていた——そんな方をたくさん見てきました。\n\n週末だけでも月5〜10万円稼げる小さな始め方、今林先生と一緒に「いつか」を「今」に変えませんか？`
+  }
+};
+
+// ==========================================
+// Cloudflare Worker URL（デプロイ後に書き換え）
+// ==========================================
+const WORKER_URL = 'https://imabayashi-linebot.maisondoimabayashi.workers.dev';
+
+// URLパラメータからLINE userIDを取得
+const LINE_USER_ID = new URLSearchParams(window.location.search).get('uid') || '';
+
+let currentQ = 0;
+let points = { A: 0, B: 0, C: 0, D: 0 };
+
+function show(id) {
+  ['screen-top','screen-question','screen-loading','screen-result']
+    .forEach(s => document.getElementById(s).style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+function startDiagnosis() {
+  currentQ = 0;
+  points = { A: 0, B: 0, C: 0, D: 0 };
+  show('screen-question');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const pct = ((currentQ + 1) / 5) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `Q${currentQ + 1} / 5`;
+  document.getElementById('q-text').textContent = q.q;
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c.text;
+    btn.onclick = () => selectChoice(i, c.point);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function selectChoice(idx, point) {
+  document.querySelectorAll('.choice-btn')[idx].classList.add('selected');
+  points[point]++;
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < 5) {
+      renderQuestion();
+    } else {
+      show('screen-loading');
+      setTimeout(showResult, 2200);
+    }
+  }, 420);
+}
+
+function determineType() {
+  const max = Math.max(points.A, points.B, points.C, points.D);
+  if (points.B === max) return 'B';
+  if (points.C === max) return 'C';
+  if (points.D === max) return 'D';
+  return 'A';
+}
+
+function showResult() {
+  show('screen-result');
+  const type = determineType();
+  const t = styleData[type];
+  const header = document.getElementById('result-header');
+  header.style.background = t.grad;
+  document.getElementById('result-type-label').textContent = `開業スタイル ${type}`;
+  document.getElementById('result-name').textContent = t.name;
+  document.getElementById('result-def').textContent = t.def;
+  document.getElementById('result-msg').textContent = t.msg;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // LINE userIDがある場合、診断結果をWorkerへ送信してLINEに結果を届ける
+  if (LINE_USER_ID) {
+    sendResultToLine(LINE_USER_ID, type);
+  }
+}
+
+async function sendResultToLine(userId, type) {
+  try {
+    await fetch(`${WORKER_URL}/result`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, type })
+    });
+    // 送信成功・失敗に関わらず画面の動作には影響しない
+  } catch (e) {
+    console.log('LINE送信エラー（画面表示には影響なし）:', e);
+  }
+}
+
+function resetDiagnosis() {
+  show('screen-top');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
